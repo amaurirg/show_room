@@ -8,14 +8,14 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
-def index():
+def home():
     camera = '' 
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
     return dict(camera=camera)
 
 
-def user():
+def index():
     """
     exposes:
     http://..../[app]/default/user/login
@@ -24,16 +24,20 @@ def user():
     http://..../[app]/default/user/profile
     http://..../[app]/default/user/retrieve_password
     http://..../[app]/default/user/change_password
-    http://..../[app]/default/user/bulk_register
+    http://..../[app]/default/user/manage_users (requires membership in
     use @auth.requires_login()
         @auth.requires_membership('group name')
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
-    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
+    response.flash = 'Preencha os campos para acessar o sistema'
+    auth.settings.remember_me_form = False
+    #auth.messages.access_denied = 'Você não tem essa permissão!'
+    #auth.messages.label_remember_me = "Lembrar-me"
+    
     return dict(form=auth())
 
-def index_admin():
+def home_admin():
     camera = '' 
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)

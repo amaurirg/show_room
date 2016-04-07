@@ -193,3 +193,18 @@ div#mensagem h4{
 	box-shadow: 2px 2px 1px rgba(0,0,0,.4);
 	font: 14px verdana, arial, sans-serif;
 }
+
+div#logo_es{
+	margin: 40px auto;
+	height: 100px;
+	text-align: center;
+}
+
+div#login{
+    background-color:#eeeeee;
+    line-height:50px;
+    width: 350px;
+    padding:15px; 
+    font: 16px "Calibri"; 
+    margin: auto;
+}
