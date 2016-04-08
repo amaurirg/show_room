@@ -5,6 +5,7 @@
 {{=lbl}}
 
 <table id="titulos">
+<tr><td id="linhas"><b>IMAGEM</b></td></tr>
 <tr><td><b>FABRICANTE</b></td></tr>
 <tr><td><b>MODELO</b></td></tr>
 <tr><td><b>TIPO</b></td></tr>
@@ -24,6 +25,7 @@
 {{for i in camera:}}
 
 <table id="dados">
+<tr><td><img class="fundo" src="{{=URL('download', args=i.foto)}}" width="150" height="150" alt=""/></td></tr>
 <tr><td class="destaque">{{=i.fabricante}}</td></tr>
 <tr><td>{{=i.modelo}}</td></tr>
 <tr><td>{{=i.tipo}}</td></tr>

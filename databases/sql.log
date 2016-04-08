@@ -86,3 +86,6 @@ success!
 timestamp: 2016-04-07T01:15:36.769000
 ALTER TABLE auth_user ADD username CHAR(128);
 success!
+timestamp: 2016-04-07T21:02:05.939000
+ALTER TABLE cameras ADD foto CHAR(512);
+success!

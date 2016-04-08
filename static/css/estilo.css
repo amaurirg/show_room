@@ -51,8 +51,8 @@ div#links a:hover{
 }
 
 div#interface{
-	width: 200%;
-	height: 470px;
+	width: 220%;
+	height: 650px;
 	margin: 10px auto;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.5);
 	display: block;
@@ -77,6 +77,7 @@ table#titulos {
 	margin-top: 0px;
 	display: block;
 	position: relative;
+	
 }
 
 table#titulos td{
@@ -86,6 +87,22 @@ table#titulos td{
 	text-align: right;
 	color: #ffffff;
 	background-color: #606060;
+	
+	
+}
+
+table#titulos td#linhas{
+	padding: 70px 0px;
+}
+
+table#dados img{
+	transition: 0.4s;
+}
+
+
+table#dados img:hover{
+	border: 1px solid #606060;
+	transform: scale(2.4);
 }
 
 table#dados{
@@ -96,7 +113,7 @@ table#dados{
 	margin-left: 10px;
 	margin-top: 0px;
 	display: block;
-	position: relative;
+	text-align: center;
 }
 
 table#dados td{

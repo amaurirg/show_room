@@ -2,6 +2,7 @@
 
 #Cameras
 CAM = db.define_table('cameras',
+	Field('foto', 'upload'),
 	Field('fabricante', default='-', notnull=True, label="FABRICANTE"),
 	Field('modelo', default='-', notnull=True, label="MODELO"),
 	Field('tipo', default='-', notnull=True, label="TIPO"),
