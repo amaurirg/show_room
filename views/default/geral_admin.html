@@ -1,10 +1,11 @@
-{{extend 'principal.html'}}
+{{extend 'principal_admin.html'}}
 
 <div id="interface_adm">
 
 {{=lbl}}
 
 <table id="titulos">
+<tr><td id="linhas"><b>IMAGEM</b></td></tr>
 <tr><td><b>FABRICANTE</b></td></tr>
 <tr><td><b>MODELO</b></td></tr>
 <tr><td><b>TIPO</b></td></tr>
@@ -23,6 +24,9 @@
 <tr><td><b>SENHA</b></td></tr>
 <tr><td><b>SERIAL</b></td></tr>
 <tr><td><b>SWITCH POE</b></td></tr>
+<tr><td class="em_branco">&nbsp;</td></tr>
+<tr><td><b>EDITAR PRODUTO</b></td></tr>
+<tr><td><b>DELETAR PRODUTO</b></td></tr>
 </table>
 
 
@@ -30,6 +34,7 @@
 {{for i in camera:}}
 
 <table id="dados">
+<tr><td><img class="fundo" src="{{=URL('download', args=i.foto)}}" width="150" height="150" alt=""/></td></tr>
 <tr><td class="destaque">{{=i.fabricante}}</td></tr>
 <tr><td>{{=i.modelo}}</td></tr>
 <tr><td>{{=i.tipo}}</td></tr>
@@ -48,6 +53,9 @@
 <tr><td>{{=i.senha}}</td></tr>
 <tr><td>{{=i.serial}}</td></tr>
 <tr><td>{{=i.switch_poe}}</td></tr>
+<tr><td class="em_branco">&nbsp;</td></tr>
+<tr><td><a href="{{=URL('editar', args=i.id)}}" title=""><span class="glyphicon glyphicon-pencil"></span></a></td></tr>
+<tr><td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td></tr>
 </table>
 
 {{pass}}

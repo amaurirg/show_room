@@ -8,14 +8,79 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
-def home():
+@auth.requires_login()
+def index():
     camera = '' 
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
     return dict(camera=camera)
 
 
-def index():
+@auth.requires_membership('admin')
+def index_admin():
+    
+    camera = '' 
+    request.vars.camera = session.busca
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+    session.busca = None
+    return dict(camera=camera)
+
+def geral():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    else:
+        camera = db(CAM).select(orderby=CAM.fabricante)
+        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+    return dict(camera=camera, lbl=lbl)   
+
+#@auth.requires_membership('admin')
+def geral_admin():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    else:
+        camera = db(CAM).select(orderby=CAM.fabricante)
+        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+    return dict(camera=camera, lbl=lbl)   
+
+@auth.requires_membership('admin')
+def novo_cadastro():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        session.busca = request.vars.camera
+        redirect(URL('index_admin'))
+    form = SQLFORM(CAM, submit_button = 'Cadastrar')
+    if form.process().accepted:
+        lbl = 'Câmera cadastrada com sucesso!'
+    elif form.errors:
+        lbl = 'Se houver algum campo vazio, preencha com hifen sem aspas: "-" '
+    else:
+        lbl = 'Preencha os campos para cadastrar uma nova câmera!'
+    
+    return dict(camera=camera, form=form, lbl=lbl)
+
+#@auth.requires_membership('admin')
+def editar():
+    novo = db(CAM.id == request.args(0)).select().first()
+    response.flash = ''
+    form = SQLFORM(CAM, novo, submit_button = 'Salvar')
+    #form = crud.update(CAM, request.args(0))
+    if form.process().accepted:
+        response.flash = 'Produto alterado com sucesso!'
+        #redirect (URL('geral_admin'))
+    elif form.errors:
+        response.flash = 'Erros no preenchimento ou campo vazio!'
+    else:
+        response.flash = 'Preencha os campos para alterar o produto!'
+    form.add_button('Cancelar', URL('geral_admin'))
+    return dict(form=form)
+
+def user():
     """
     exposes:
     http://..../[app]/default/user/login
@@ -34,58 +99,8 @@ def index():
     auth.settings.remember_me_form = False
     #auth.messages.access_denied = 'Você não tem essa permissão!'
     #auth.messages.label_remember_me = "Lembrar-me"
-    
+
     return dict(form=auth())
-
-def home_admin():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-    return dict(camera=camera)
-
-def geral():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
-    else:
-        camera = db(CAM).select(orderby=CAM.fabricante)
-        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
-    return dict(camera=camera, lbl=lbl)   
-
-def geral_admin():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
-    else:
-        camera = db(CAM).select(orderby=CAM.fabricante)
-        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
-    return dict(camera=camera, lbl=lbl)   
-
-def novo_cadastro():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        
-        ##########################
-
-        session.flash = camera
-        
-        ##########################
-
-        redirect(URL('index_admin'))
-    form = SQLFORM(CAM, submit_button = 'Cadastrar')
-    if form.process().accepted:
-        lbl = 'Câmera cadastrada com sucesso!'
-    elif form.errors:
-        lbl = 'Se houver algum campo vazio, preencha com hifen sem aspas: "-" !'
-    else:
-        lbl = 'Preencha os campos para cadastrar uma nova câmera!'
-    
-    return dict(camera=camera, form=form, lbl=lbl)
-
-
 
 @cache.action()
 def download():

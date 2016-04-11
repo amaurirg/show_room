@@ -49,10 +49,10 @@ I00
 sg6
 I15
 sg7
-S'CHAR(512)'
+S'CHAR(512) NOT NULL'
 p18
 sg9
-I00
+I01
 sg10
 g15
 ssS'tec'
@@ -113,10 +113,10 @@ I00
 sg6
 I18
 sg7
-S'CHAR(512)'
+S'CHAR(512) NOT NULL'
 p30
 sg9
-I00
+I01
 sg10
 g15
 ssS'lente'
@@ -210,10 +210,10 @@ I00
 sg6
 I20
 sg7
-S'CHAR(512)'
+S'CHAR(512) NOT NULL'
 p49
 sg9
-I00
+I01
 sg10
 g15
 ssS'tipo'
@@ -242,10 +242,10 @@ I00
 sg6
 I17
 sg7
-S'CHAR(512)'
+S'CHAR(512) NOT NULL'
 p55
 sg9
-I00
+I01
 sg10
 g15
 ssS'fabricante'
@@ -322,10 +322,10 @@ I00
 sg6
 I16
 sg7
-S'CHAR(512)'
+S'CHAR(512) NOT NULL'
 p70
 sg9
-I00
+I01
 sg10
 g15
 ss.

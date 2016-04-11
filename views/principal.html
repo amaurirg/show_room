@@ -13,15 +13,16 @@
 	
 		<div id="links">
 			<ul>
-			<li><a href="home.html">Home</a></li>
-			<li><a href="geral.html">Câmeras</a></li>
+			<li><a href="{{=URL('index')}}">Home</a></li>
+			<li><a href="{{=URL('geral')}}">Câmeras</a></li>
+			<li><a href="{{=URL('user/logout')}}">Sair</b></a></li>
 			</ul>
 		</div>
 
 		<div id="buscar">
 		    <form action="">
 			    <div class="input-group">
-			      <input name="camera" type="text" class="form-control" placeholder="Buscar por fabricante, modelo, tipo, lente, resolução ou outra opção">
+			      <input name="camera" type="text" class="form-control" placeholder="Buscar por fabricante, modelo, tipo, lente, resolução ou outra opção" autofocus>
 			      <span class="input-group-btn">
 			      <button type="submit" class="btn btn-info">Buscar</button>
 			      </span>
