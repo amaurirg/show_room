@@ -44,6 +44,17 @@ def geral_admin():
     else:
         camera = db(CAM).select(orderby=CAM.fabricante)
         lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+
+    #########################################
+
+    # if len(camera) > 8:
+    #     print "Maior"
+    # else:
+    #     print "Menor"
+    #print len(camera)
+
+    #########################################
+
     return dict(camera=camera, lbl=lbl)   
 
 @auth.requires_membership('admin')

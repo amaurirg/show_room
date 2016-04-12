@@ -61,8 +61,8 @@ div#interface{
 }
 
 div#interface_adm{
-	width: 300%;
-	/*overflow:auto;*/
+	width: 98%;
+	overflow:auto;
 	height: 900px;
 	margin: 10px auto;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.5);
@@ -75,11 +75,10 @@ table#titulos {
 	border-spacing: 0px;
 	float: left;
 	margin-left: 10px;
-	margin-right: 20px;
+	margin-right: 10px;
 	margin-top: 0px;
 	display: block;
 	position: relative;
-	
 }
 
 table#titulos td{
