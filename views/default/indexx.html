@@ -1,0 +1,55 @@
+{{extend 'jumbotron.html'}}
+
+
+
+<div class="row">
+    <form action="">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input name="camera" type="text" class="form-control" placeholder="Buscar por marca, modelo, tipo, lente, resolução ou outra opção">
+      <span class="input-group-btn">
+      <button type="submit" class="btn btn-info">Buscar</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+    </form><br /><br />
+</div><!-- /.row -->
+
+<div class="col-md-12">
+<h3>Câmeras Selecionadas</h3>
+<table style="width:100%">
+<tr>
+  <td><pre><b>MARCA</b></pre></td>
+  <td><pre><b>MODELO</b></pre></td>
+  <td><pre><b>TIPO</b></pre></td>
+  <td><pre><b>LENTE</b></pre></td>
+  <td><pre><b>RESOLUÇÃO</b></pre></td>
+  <td><pre><b>ALCANCE DO IR</b></pre></td>
+  <td><pre><b>IP</b></pre></td>
+  <td><pre><b>USUÁRIO</b></pre></td>
+  <td><pre><b>SENHA</b></pre></td>
+  <td><pre><b>SERIAL</b></pre></td>
+  <td><pre><b>SWITCH POE</b></pre></td>
+</tr>
+{{for i in camera:}}
+
+  <tr>
+    <td><pre>{{=i.marca}}</pre></td>
+    <td><pre>{{=i.modelo}}</pre></td>
+    <td><pre>{{=i.tipo}}</pre></td> 
+    <td><pre>{{=i.lente}}</pre></td>  
+    <td><pre>{{=i.resolucao}}</pre></td>  
+    <td><pre>{{=i.alcance_ir}}</pre></td> 
+    <td><pre>{{=i.ip}}</pre></td> 
+    <td><pre>{{=i.usuario}}</pre></td>  
+    <td><pre>{{=i.senha}}</pre></td>  
+    <td><pre>{{=i.serial}}</pre></td> 
+    <td><pre>{{=i.switch_poe}}</pre></td> 
+  </tr>
+
+
+{{pass}}
+
+</table>
+
+</div>

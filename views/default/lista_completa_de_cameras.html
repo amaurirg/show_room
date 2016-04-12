@@ -1,16 +1,8 @@
 {{extend 'principal.html'}}
 
-{{
-if auth.has_membership('admin'):
-    redirect(URL('index_admin'))
-else:
-	pass}}
-
-
 <div id="interface">
 
-
-<h3>Câmeras Selecionadas</h3>
+{{=lbl}}
 
 <table id="titulos">
 <tr><td><b>FABRICANTE</b></td></tr>
@@ -25,7 +17,14 @@ else:
 <tr><td><b>CONSUMO MÁXIMO</b></td></tr>
 <tr><td><b>GRAU DE PROTEÇÃO</b></td></tr>
 <tr><td><b>LOCAL DE INSTALAÇÃO</b></td></tr>
+<tr><td><b>IP</b></td></tr>
+<tr><td><b>USUÁRIO</b></td></tr>
+<tr><td><b>SENHA</b></td></tr>
+<tr><td><b>SERIAL</b></td></tr>
+<tr><td><b>SWITCH POE</b></td></tr>
 </table>
+
+
 
 {{for i in camera:}}
 
@@ -42,9 +41,13 @@ else:
 <tr><td>{{=i.consumo}}</td></tr>
 <tr><td>{{=i.grau}}</td></tr>
 <tr><td>{{=i.int_ext}}</td></tr>
+<tr><td>{{=i.ip}}</td></tr>
+<tr><td>{{=i.usuario}}</td></tr>
+<tr><td>{{=i.senha}}</td></tr>
+<tr><td>{{=i.serial}}</td></tr>
+<tr><td>{{=i.switch_poe}}</td></tr>
 </table>
 
 {{pass}}
 
 </div>
-

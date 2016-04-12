@@ -18,6 +18,7 @@ myconf = AppConfig(reload=True)
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     db = DAL(myconf.take('db.uri'), pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'])
+    #db = DAL('sqlite://ramais.sqlite',pool_size=1,check_reserved=['all'])
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
@@ -51,14 +52,15 @@ response.form_label_separator = myconf.take('forms.separator')
 ## (more options discussed in gluon/tools.py)
 #########################################################################
 
-from gluon.tools import Auth, Service, PluginManager
+from gluon.tools import Auth, Service, PluginManager, Crud
 
+crud = Crud(db)
 auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
 
 ## configure email
 mail = auth.settings.mailer

@@ -1,18 +1,11 @@
 {{extend 'principal.html'}}
 
-{{
-if auth.has_membership('admin'):
-    redirect(URL('index_admin'))
-else:
-	pass}}
-
-
 <div id="interface">
 
-
-<h3>Câmeras Selecionadas</h3>
+{{=lbl}}
 
 <table id="titulos">
+<tr><td id="linhas"><b>IMAGEM</b></td></tr>
 <tr><td><b>FABRICANTE</b></td></tr>
 <tr><td><b>MODELO</b></td></tr>
 <tr><td><b>TIPO</b></td></tr>
@@ -27,10 +20,13 @@ else:
 <tr><td><b>LOCAL DE INSTALAÇÃO</b></td></tr>
 </table>
 
+
+
 {{for i in camera:}}
 
 <table id="dados">
-<tr><td>{{=i.fabricante}}</td></tr>
+<tr><td><img class="fundo" src="{{=URL('download', args=i.foto)}}" width="150" height="150" alt=""/></td></tr>
+<tr><td class="destaque">{{=i.fabricante}}</td></tr>
 <tr><td>{{=i.modelo}}</td></tr>
 <tr><td>{{=i.tipo}}</td></tr>
 <tr><td>{{=i.tec}}</td></tr>
@@ -47,4 +43,3 @@ else:
 {{pass}}
 
 </div>
-

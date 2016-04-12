@@ -8,17 +8,87 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+@auth.requires_login()
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+    return dict(camera=camera)
 
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+@auth.requires_membership('admin')
+def index_admin():
+    
+    camera = '' 
+    request.vars.camera = session.busca
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+    session.busca = None
+    return dict(camera=camera)
 
+def geral():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    else:
+        camera = db(CAM).select(orderby=CAM.fabricante)
+        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+    return dict(camera=camera, lbl=lbl)   
+
+#@auth.requires_membership('admin')
+def geral_admin():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    else:
+        camera = db(CAM).select(orderby=CAM.fabricante)
+        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+
+    #########################################
+
+    # if len(camera) > 8:
+    #     print "Maior"
+    # else:
+    #     print "Menor"
+    #print len(camera)
+
+    #########################################
+
+    return dict(camera=camera, lbl=lbl)   
+
+@auth.requires_membership('admin')
+def novo_cadastro():
+    camera = '' 
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        session.busca = request.vars.camera
+        redirect(URL('index_admin'))
+    form = SQLFORM(CAM, submit_button = 'Cadastrar')
+    if form.process().accepted:
+        lbl = 'Câmera cadastrada com sucesso!'
+    elif form.errors:
+        lbl = 'Se houver algum campo vazio, preencha com hifen sem aspas: "-" '
+    else:
+        lbl = 'Preencha os campos para cadastrar uma nova câmera!'
+    
+    return dict(camera=camera, form=form, lbl=lbl)
+
+#@auth.requires_membership('admin')
+def editar():
+    novo = db(CAM.id == request.args(0)).select().first()
+    response.flash = ''
+    form = SQLFORM(CAM, novo, submit_button = 'Salvar')
+    #form = crud.update(CAM, request.args(0))
+    if form.process().accepted:
+        response.flash = 'Produto alterado com sucesso!'
+        #redirect (URL('geral_admin'))
+    elif form.errors:
+        response.flash = 'Erros no preenchimento ou campo vazio!'
+    else:
+        response.flash = 'Preencha os campos para alterar o produto!'
+    form.add_button('Cancelar', URL('geral_admin'))
+    return dict(form=form)
 
 def user():
     """
@@ -29,15 +99,18 @@ def user():
     http://..../[app]/default/user/profile
     http://..../[app]/default/user/retrieve_password
     http://..../[app]/default/user/change_password
-    http://..../[app]/default/user/bulk_register
+    http://..../[app]/default/user/manage_users (requires membership in
     use @auth.requires_login()
         @auth.requires_membership('group name')
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
-    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
-    return dict(form=auth())
+    response.flash = 'Preencha os campos para acessar o sistema'
+    auth.settings.remember_me_form = False
+    #auth.messages.access_denied = 'Você não tem essa permissão!'
+    #auth.messages.label_remember_me = "Lembrar-me"
 
+    return dict(form=auth())
 
 @cache.action()
 def download():
