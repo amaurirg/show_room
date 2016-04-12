@@ -15,7 +15,6 @@ def index():
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
     return dict(camera=camera)
 
-
 @auth.requires_membership('admin')
 def index_admin():
     
