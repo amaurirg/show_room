@@ -105,7 +105,7 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    response.flash = 'Preencha os campos para acessar o sistema'
+    response.flash = 'Acesso ao sistema Show Room'
     auth.settings.remember_me_form = False
     #auth.messages.access_denied = 'Você não tem essa permissão!'
     #auth.messages.label_remember_me = "Lembrar-me"

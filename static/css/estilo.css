@@ -11,6 +11,13 @@ h3{
 	color: blue;
 }
 
+h4{
+	text-align: center;
+	font-weight: bold;
+	font-family: arial, sans-serif;
+	font-size: 18px;
+}
+
 div#cabecalho{
 	height: 90px;
 	/*border: 1px solid #000;*/
