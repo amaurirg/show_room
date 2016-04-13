@@ -60,7 +60,7 @@ div#links a:hover{
 
 div#interface{
 	width: 300%;
-	height: 650px;
+	height: 750px;
 	margin: 10px auto;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.5);
 	display: block;
@@ -70,7 +70,7 @@ div#interface{
 div#interface_adm{
 	width: 98%;
 	/*overflow:auto;*/
-	height: 900px;
+	height: 1000px;
 	margin: 10px auto;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.5);
 	display: block;
