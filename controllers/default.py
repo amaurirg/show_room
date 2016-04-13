@@ -11,9 +11,34 @@
 @auth.requires_login()
 def index():
     camera = '' 
+
+    # if not request.vars.page:
+    #     redirect(URL(vars={'page':1}))
+    #     print request.vars.page
+    # else:
+    #     page =int(request.vars.page)
+    #     print request.vars.page
+    # start = (page-1)*5
+    # end = page*5
+
     if request.vars.camera:
+        print request.vars.camera
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-    return dict(camera=camera)
+        if len(camera)<=1:
+            lbl = H3('Câmera Selecionada', _class='test', _id=0)
+        else:
+            lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
+
+        lbl2 = ''
+    else:
+        print request.vars.camera
+        lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
+        lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
+
+
+    #camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+    #camera = db(CAM).select(orderby=CAM.fabricante, limitby=(start,end))
+    return dict(camera=camera, lbl=lbl, lbl2=lbl2)
 
 @auth.requires_membership('admin')
 def index_admin():
@@ -35,7 +60,7 @@ def geral():
         lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
     return dict(camera=camera, lbl=lbl)   
 
-#@auth.requires_membership('admin')
+@auth.requires_membership('admin')
 def geral_admin():
     camera = '' 
     if request.vars.camera:
@@ -44,17 +69,6 @@ def geral_admin():
     else:
         camera = db(CAM).select(orderby=CAM.fabricante)
         lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
-
-    #########################################
-
-    # if len(camera) > 8:
-    #     print "Maior"
-    # else:
-    #     print "Menor"
-    #print len(camera)
-
-    #########################################
-
     return dict(camera=camera, lbl=lbl)   
 
 @auth.requires_membership('admin')

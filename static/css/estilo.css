@@ -11,6 +11,13 @@ h3{
 	color: blue;
 }
 
+h4{
+	font-family: arial, sans-serif;
+	padding: 0px 0px 20px 20px;
+	text-align: left;
+	color: blue;
+}
+
 div#cabecalho{
 	height: 90px;
 	/*border: 1px solid #000;*/
@@ -62,7 +69,7 @@ div#interface{
 
 div#interface_adm{
 	width: 98%;
-	overflow:auto;
+	/*overflow:auto;*/
 	height: 900px;
 	margin: 10px auto;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.5);
