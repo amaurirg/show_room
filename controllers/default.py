@@ -23,7 +23,7 @@ def index():
 
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        if len(camera)<=1:
+        if len(camera)==1:
             lbl = H3('Câmera Selecionada', _class='test', _id=0)
         else:
             lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
