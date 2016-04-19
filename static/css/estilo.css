@@ -8,14 +8,20 @@ h3{
 	text-align: left;
 	font-weight: bold;
 	font-style: italic;
-	color: blue;
+	color: #3463A9;
 }
 
 h4{
 	font-family: arial, sans-serif;
 	padding: 0px 0px 20px 20px;
 	text-align: left;
-	color: blue;
+	color: #3463A9;
+}
+
+div#login h4{
+	text-align: center;
+	width: 270px;
+	margin: auto;
 }
 
 div#cabecalho{
@@ -47,7 +53,7 @@ div#links ul li{
 }
 
 div#links a{
-	color: blue;
+	color: #3463A9;
 	font-family: arial, sans-serif;
 	font-weight: bold;
 	text-decoration-line: none;
@@ -189,10 +195,18 @@ div#dados_dir{
 }
 
 div#bot_cadastrar{
-	width: 20%;
+	width: 25%;
 	padding: 10px 20px;
 	float: left;
 	position: relative;
+}
+
+div#bot_cadastrar{
+	text-align: center;
+}
+
+div#bot_cadastrar p{
+	text-align: center;
 }
 
 div#cadastro input[type=text]{

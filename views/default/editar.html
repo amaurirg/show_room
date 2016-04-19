@@ -25,14 +25,13 @@
 		{{form.elements('#cameras_lente')[0]['_class']='form-control'}}
 		{{=form.custom.widget.lente}}
 		<br />
-	</div>
-
-	<div id="dados_meio">
 		
 		{{form.elements('#cameras_angulo')[0]['_class']='form-control'}}
 		{{=form.custom.widget.angulo}}
 		<br />
-		
+	</div>
+
+	<div id="dados_meio">		
 		{{form.elements('#cameras_resolucao')[0]['_class']='form-control'}}
 		{{=form.custom.widget.resolucao}}
 		<br />
@@ -48,9 +47,7 @@
 		{{form.elements('#cameras_consumo')[0]['_class']='form-control'}}
 		{{=form.custom.widget.consumo}}
 		<br />
-	</div>
-
-	<div id="dados_dir">		
+		
 		{{form.elements('#cameras_grau')[0]['_class']='form-control'}}
 		{{=form.custom.widget.grau}}
 		<br />
@@ -58,7 +55,9 @@
 		{{form.elements('#cameras_int_ext')[0]['_class']='form-control'}}
 		{{=form.custom.widget.int_ext}}
 		<br />
+	</div>
 
+	<div id="dados_dir">
 		{{form.elements('#cameras_ip')[0]['_class']='form-control'}}
 		{{=form.custom.widget.ip}}
 		<br />
@@ -70,9 +69,7 @@
 		{{form.elements('#cameras_usuario')[0]['_class']='form-control'}}
 		{{=form.custom.widget.usuario}}
 		<br />
-	</div>
 
-	<div id="bot_cadastrar">
 		{{form.elements('#cameras_senha')[0]['_class']='form-control'}}
 		{{=form.custom.widget.senha}}
 		<br />
@@ -84,9 +81,17 @@
 		{{form.elements('#cameras_switch_poe')[0]['_class']='form-control'}}
 		{{=form.custom.widget.switch_poe}}
 		<br />
+	</div>
 
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{=form.custom.submit}}
-		<br /><br />
+	<div id="bot_cadastrar">
+		<img class="fundo" src="{{=URL('download', args=novo.foto)}}" width="200" height="200" alt=""/>
+		<br />
+		{{form.elements('#cameras_foto')[0]['_class']='form-control'}}
+		{{=form.custom.widget.foto}}
+		
+		<br />
+		<p>{{=form.custom.submit}}</p>
+		<br />
 
 		<div id="mensagem">
 			<h4>{{=response.flash}}</h4>

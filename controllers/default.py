@@ -42,7 +42,7 @@ def index():
 def index_admin():
     
     camera = '' 
-    request.vars.camera = session.busca
+    # request.vars.camera = session.busca
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
         if len(camera)<=1:
@@ -54,7 +54,7 @@ def index_admin():
         lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
         lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
 
-    session.busca = None
+    #session.busca = None
     return dict(camera=camera, lbl=lbl, lbl2=lbl2)
 
     # if request.vars.camera:
@@ -97,7 +97,7 @@ def novo_cadastro():
     camera = '' 
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        session.busca = request.vars.camera
+        #session.busca = request.vars.camera
         redirect(URL('index_admin'))
     form = SQLFORM(CAM, submit_button = 'Cadastrar')
     if form.process().accepted:
@@ -114,16 +114,18 @@ def editar():
     novo = db(CAM.id == request.args(0)).select().first()
     response.flash = ''
     form = SQLFORM(CAM, novo, submit_button = 'Salvar')
-    #form = crud.update(CAM, request.args(0))
+    
     if form.process().accepted:
         response.flash = 'Produto alterado com sucesso!'
+        #redirect(URL('editar',args=novo.id))
         #redirect (URL('geral_admin'))
     elif form.errors:
         response.flash = 'Erros no preenchimento ou campo vazio!'
     else:
         response.flash = 'Preencha os campos para alterar o produto!'
     form.add_button('Cancelar', URL('geral_admin'))
-    return dict(form=form)
+
+    return dict(form=form, novo=novo)
 
 def user():
     """
@@ -166,3 +168,14 @@ def call():
     return service()
 
 
+'''
+***************************************************************
+CONFIRMAR DELETE
+jQuery(document).ready(function(){
+   jQuery('input.delete').prop('onclick',
+     'if(this.checked) if(!confirm(
+        "{{=T('Sure you want to delete this object?')}}"))
+      this.checked=False;');
+});
+***************************************************************
+'''

@@ -20,3 +20,4 @@ CAM.senha.requires = IS_NOT_EMPTY()
 CAM.serial.requires = IS_NOT_EMPTY()#, IS_NOT_IN_DB(db, 'cameras.serial')
 CAM.switch_poe.requires = IS_NOT_EMPTY()#, IS_NOT_IN_DB(db, 'cameras.switch_poe')
 
+#CAM.foto.requires=IS_EMPTY_OR(IS_IMAGE(extensions=('jpeg', 'png', 'gif'), error_message=e_m['image']))
