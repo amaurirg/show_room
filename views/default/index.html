@@ -6,11 +6,14 @@ if auth.has_membership('admin'):
 else:
 	pass}}
 
+<nav>
+  <ul class="pager">
+    <li>{{if not int(request.vars.page)<=1:}}<a href="{{=URL('index', vars={'camera':request.vars.camera, 'page':int(request.vars.page)-1})}}" class="button alt">Anterior</a>{{pass}}</li>
+    <li>{{if not int(request.vars.page)*4 >= len(camera):}}<a href="{{=URL('index', vars={'camera':request.vars.camera, 'page':int(request.vars.page)+1})}}" class="button">Próximo</a>{{pass}}</li>
+  </ul>
+</nav>
 
 <div id="interface">
-
-{{=lbl}}
-{{=lbl2}}
 
 <div id="tabela_titulos">
 	<table id="titulos">

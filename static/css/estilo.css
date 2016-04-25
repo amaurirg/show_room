@@ -257,3 +257,8 @@ div#login{
     font: 16px "Calibri"; 
     margin: auto;
 }
+
+.pager{
+	margin: auto;
+	position: relative;
+}
