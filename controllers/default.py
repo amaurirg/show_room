@@ -20,25 +20,26 @@ def index():
     end = page*5
 
     if request.vars.camera:
-    #     camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-    #     if len(camera)==1:
-    #         lbl = H3('Câmera Selecionada', _class='test', _id=0)
-    #     else:
-    #         lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
-
-    #     lbl2 = ''
-    # else:
-    #     lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
-    #     lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
-
-
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))
+    #     camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+        if len(camera)==1:
+            lbl = H3('Câmera Selecionada', _class='test', _id=0)
+        else:
+            lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
+
+        lbl2 = ''
+    else:
+        lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
+        lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
+
+
+        
     #camera = db(CAM).select(orderby=CAM.fabricante, limitby=(start,end))
 
     #else:
     #    pass
     
-    return dict(camera=camera)#, lbl=lbl, lbl2=lbl2)
+    return dict(camera=camera, lbl=lbl, lbl2=lbl2)
 
 @auth.requires_membership('admin')
 def index_admin():
