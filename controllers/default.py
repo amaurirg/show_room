@@ -11,97 +11,96 @@
 @auth.requires_login()
 def index():
     camera = '' 
-
     if not request.vars.page:
         redirect(URL(vars={'camera':request.vars.camera, 'page':1}))
     else:
         page =int(request.vars.page)
     start = (page-1)*5
     end = page*5
-
     if request.vars.camera:
         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))
-    #     camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
         if len(camera)==1:
             lbl = H3('Câmera Selecionada', _class='test', _id=0)
         else:
             lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
-
         lbl2 = ''
     else:
         lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
         lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
-
-
-        
-    #camera = db(CAM).select(orderby=CAM.fabricante, limitby=(start,end))
-
-    #else:
-    #    pass
-    
     return dict(camera=camera, lbl=lbl, lbl2=lbl2)
 
 @auth.requires_membership('admin')
 def index_admin():
-    
     camera = '' 
-    # request.vars.camera = session.busca
+    if not request.vars.page:
+        redirect(URL(vars={'camera':request.vars.camera, 'page':1}))
+    else:
+        page =int(request.vars.page)
+    start = (page-1)*5
+    end = page*5
     if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        if len(camera)<=1:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))
+        if len(camera)==1:
             lbl = H3('Câmera Selecionada', _class='test', _id=0)
         else:
-            lbl = H3('Câmeras Selecionadas', _class='test', _id=0)   
+            lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
         lbl2 = ''
     else:
         lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
         lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
-
-    #session.busca = None
+    #print('request.vars = ',request.vars)
+    #session.req = response.args
+    session.req = request.vars.camera
+    print('session.req = ', request.vars.camera)
+    #print('request.vars = ', request.vars)
     return dict(camera=camera, lbl=lbl, lbl2=lbl2)
 
-    # if request.vars.camera:
-    #     print request.vars.camera
-    #     camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-    #     if len(camera)<=1:
-    #         lbl = H3('Câmera Selecionada', _class='test', _id=0)
-    #     else:
-    #         lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
-
-    #     lbl2 = ''
-    # else:
-    #     print request.vars.camera
-    #     lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
-    #     lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
+# def geral():
+#     camera = '' 
+#     if request.vars.camera:
+#         camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
+#         lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+#     else:
+#         camera = db(CAM).select(orderby=CAM.fabricante)
+#         lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
+#     return dict(camera=camera, lbl=lbl)   
 
 def geral():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    camera = ''     
+    if request.vars.camera and not request.vars.page:
+        redirect(URL('index', vars={'camera':request.vars.camera}))
+    if not request.vars.page:
+        redirect(URL(vars={'page':1}))
     else:
-        camera = db(CAM).select(orderby=CAM.fabricante)
-        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
-    return dict(camera=camera, lbl=lbl)   
+        page = int(request.vars.page)
+    start = (page-1)*5
+    end = page*5
+    camera = db(CAM).select(orderby=CAM.fabricante, limitby=(start,end))
+    lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)     
+    return dict(camera=camera, lbl=lbl)
 
 @auth.requires_membership('admin')
 def geral_admin():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        lbl = H3('Câmera(s) Selecionada(s)', _class='test', _id=0)
+    camera = ''     
+    if request.vars.camera and not request.vars.page:
+        redirect(URL('index_admin', vars={'camera':request.vars.camera}))
+    if not request.vars.page:
+        redirect(URL(vars={'page':1}))
     else:
-        camera = db(CAM).select(orderby=CAM.fabricante)
-        lbl = H3('Lista Geral de Câmeras', _class='test', _id=0)
-    return dict(camera=camera, lbl=lbl)   
+        page = int(request.vars.page)
+    start = (page-1)*5
+    end = page*5
+    camera = db(CAM).select(orderby=CAM.fabricante, limitby=(start,end))
+    lbl = H3('Lista Geral de Câmeras', _class='test', _id=0) 
+    session.req = request.vars.camera    
+    print('session.req = ', request.vars.camera)
+    return dict(camera=camera, lbl=lbl)
 
 @auth.requires_membership('admin')
 def novo_cadastro():
-    camera = '' 
-    if request.vars.camera:
-        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante)
-        #session.busca = request.vars.camera
-        redirect(URL('index_admin'))
+    camera = ''     
+    if request.vars.camera and not request.vars.page:
+        redirect(URL('index_admin', vars={'camera':request.vars.camera}))
     form = SQLFORM(CAM, submit_button = 'Cadastrar')
     if form.process().accepted:
         lbl = 'Câmera cadastrada com sucesso!'
@@ -109,26 +108,40 @@ def novo_cadastro():
         lbl = 'Se houver algum campo vazio, preencha com hifen sem aspas: "-" '
     else:
         lbl = 'Preencha os campos para cadastrar uma nova câmera!'
-    
     return dict(camera=camera, form=form, lbl=lbl)
 
-#@auth.requires_membership('admin')
+@auth.requires_membership('admin')
 def editar():
+    camera = ''     
+    if request.vars.camera and not request.vars.page:
+        redirect(URL('index_admin', vars={'camera':request.vars.camera}))    
     novo = db(CAM.id == request.args(0)).select().first()
     response.flash = ''
     form = SQLFORM(CAM, novo, submit_button = 'Salvar')
-    
     if form.process().accepted:
         response.flash = 'Produto alterado com sucesso!'
-        #redirect(URL('editar',args=novo.id))
-        #redirect (URL('geral_admin'))
     elif form.errors:
         response.flash = 'Erros no preenchimento ou campo vazio!'
     else:
         response.flash = 'Preencha os campos para alterar o produto!'
     form.add_button('Cancelar', URL('geral_admin'))
-
     return dict(form=form, novo=novo)
+
+@auth.requires_membership('admin')
+def confirma_delete():
+    db(CAM.id==request.args(0)).delete()
+    redirect(URL('index_admin', vars={'camera':session.req}))
+    
+@auth.requires_membership('admin')
+def deletar():
+    camera = ''     
+    if request.vars.camera and not request.vars.page:
+        redirect(URL('index_admin', vars={'camera':request.vars.camera}))
+    produto = db(CAM.id==request.args(0)).select().first()
+    return dict(produto=produto)
+
+def teste_user():
+    return dict()
 
 def user():
     """
@@ -147,9 +160,8 @@ def user():
     """
     response.flash = 'Preencha os campos para acessar o sistema'
     auth.settings.remember_me_form = False
-    #auth.messages.access_denied = 'Você não tem essa permissão!'
+    auth.messages.access_denied = 'Você não tem essa permissão!'
     #auth.messages.label_remember_me = "Lembrar-me"
-
     return dict(form=auth())
 
 @cache.action()
@@ -160,7 +172,6 @@ def download():
     """
     return response.download(request, db)
 
-
 def call():
     """
     exposes services. for example:
@@ -170,15 +181,3 @@ def call():
     """
     return service()
 
-
-'''
-***************************************************************
-CONFIRMAR DELETE
-jQuery(document).ready(function(){
-   jQuery('input.delete').prop('onclick',
-     'if(this.checked) if(!confirm(
-        "{{=T('Sure you want to delete this object?')}}"))
-      this.checked=False;');
-});
-***************************************************************
-'''

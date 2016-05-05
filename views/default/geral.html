@@ -4,6 +4,14 @@
 
 {{=lbl}}
 
+<nav>
+  <ul class="pager">
+    <li>{{if not int(request.vars.page)<=1:}}<a href="{{=URL(vars={'camera':request.vars.camera, 'page':int(request.vars.page)-1})}}" class="button alt">Anterior</a>{{pass}}</li>
+    <li>{{if not int(request.vars.page) >= len(camera):}}<a href="{{=URL(vars={'camera':request.vars.camera, 'page':int(request.vars.page)+1})}}" class="button">Próximo</a>{{pass}}</li>
+  </ul>
+</nav>
+<br/>
+
 <div id="tabela_titulos">
 	<table id="titulos">
 	<tr><td id="linhas"><b>IMAGEM</b></td></tr>

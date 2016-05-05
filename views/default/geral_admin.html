@@ -4,6 +4,14 @@
 
 {{=lbl}}
 
+<nav>
+  <ul class="pager">
+    <li>{{if not int(request.vars.page)<=1:}}<a href="{{=URL(vars={'camera':request.vars.camera, 'page':int(request.vars.page)-1})}}" class="button alt">Anterior</a>{{pass}}</li>
+    <li>{{if not int(request.vars.page) >= len(camera):}}<a href="{{=URL(vars={'camera':request.vars.camera, 'page':int(request.vars.page)+1})}}" class="button">Próximo</a>{{pass}}</li>
+  </ul>
+</nav>
+<br/>
+
 <div id="tabela_titulos">
 	<table id="titulos">
 	<tr><td id="linhas"><b>IMAGEM</b></td></tr>
@@ -56,11 +64,19 @@
 	<tr><td>{{=i.serial}}</td></tr>
 	<tr><td>{{=i.switch_poe}}</td></tr>
 	<tr><td class="em_branco">&nbsp;</td></tr>
-	<tr><td><a href="{{=URL('editar', args=i.id)}}" title=""><span class="glyphicon glyphicon-pencil"></span></a></td></tr>
-	<tr><td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td></tr>
-	</table>
+	<tr><td><a href="{{=URL('editar', args=i.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></td></tr>
+	<tr><td><a href="{{=URL('deletar', args=i.id)}}" class="delete_button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a></span></td></tr>
 </div>
 
 {{pass}}
+
+<script>
+    $(document).ready(function(){
+        $('.delete_button').click(function(e){
+            if (!confirm('Deseja realmente deletar o produto?'))
+                e.preventDefault();
+        });
+    });
+</script>
 
 </div>
