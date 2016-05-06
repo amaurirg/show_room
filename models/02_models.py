@@ -26,3 +26,27 @@ CAM = db.define_table('cameras',
 	)
 #db.nome_ramal.depto.widget = SQLFORM.widgets.autocomplete(request, db.nome_ramal.depto, limitby=(0,1), min_length=1)
 
+def imprime(x):
+	print(x)
+
+
+def busca():
+    camera = '' 
+    if not request.vars.page:
+        redirect(URL(vars={'camera':request.vars.camera, 'page':1}))
+    else:
+        page =int(request.vars.page)
+    start = (page-1)*5
+    end = page*5
+    if request.vars.camera:
+        camera = db(CAM.fabricante.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.modelo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))  | db(CAM.tipo.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.lente.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.resolucao.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end)) | db(CAM.alcance_ir.like('%'+request.vars.camera+'%')).select(orderby=CAM.fabricante, limitby=(start,end))
+        if len(camera)==1:
+            lbl = H3('Câmera Selecionada', _class='test', _id=0)
+        else:
+            lbl = H3('Câmeras Selecionadas', _class='test', _id=0)
+        lbl2 = ''
+    else:
+        lbl = H3('Nenhuma Câmera Selecionada', _class='test', _id=0)
+        lbl2 = H4('Digite em buscar para selecionar ou clique em Câmeras para visualizar a lista geral', _class='test', _id=0)
+    return camera, lbl, lbl2
+

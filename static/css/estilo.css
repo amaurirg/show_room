@@ -18,12 +18,6 @@ h4{
 	color: #3463A9;
 }
 
-div#login h4{
-	text-align: center;
-	width: 270px;
-	margin: auto;
-}
-
 div#cabecalho{
 	height: 90px;
 	/*border: 1px solid #000;*/
@@ -40,6 +34,11 @@ div#cabecalho img{
 div#buscar{
 	margin: auto;
 	padding: 28px 250px;
+}
+
+.usuario{
+	float: right;
+	padding: 38px 90px 32px 32px;
 }
 
 div#links{
@@ -258,6 +257,12 @@ div#login{
     margin: auto;
 }
 
+div#login h4{
+	text-align: center;
+	width: 270px;
+	margin: auto;
+}
+
 .pager{
 	margin: auto;
 	position: relative;
@@ -296,3 +301,4 @@ nav#botoesdel_canc li{
 	float: right;
 	color: #fff;
 }
+
